@@ -16,7 +16,9 @@ class CreateFileTable extends Migration
         Schema::create('TB_FILES', function (Blueprint $table) {
             $table->increments('id');
             $table->string('title', 200);
-            $table->string('filename', 200);
+            $table->string('filepath', 200);
+            $table->tinyInteger('status')->default(0);
+            $table->tinyInteger('rowstatus')->default(1);
             $table->timestamps();
         });
     }

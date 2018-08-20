@@ -11,10 +11,11 @@
 |
 */
 Route::group([], function() {
-    // Route::get('auth', 'UserManagementController@showForm')->name('login');
-    // Route::post('login', 'UserManagementController@submitLoginForm');
-    // Route::post('register', 'UserManagementController@submitRegisterForm');
-    // Route::post('logout', 'UserManagementController@logout')->name('logout');
+    Route::get('/login', 'UserManagementController@showLoginForm')->name('login');
+    Route::post('/signin', 'UserManagementController@submitLoginForm');
+    Route::get('/register', 'UserManagementController@showRegisterForm')->name('register');
+    Route::post('/signup', 'UserManagementController@submitRegisterForm');
+    Route::post('/logout', 'UserManagementController@logout')->name('logout');
     Route::get('/home', 'HomeController@index')->name('home');
 
 	// single upload
@@ -33,9 +34,9 @@ Route::group([], function() {
 //     Route::get('/', 'DashboardController@index');
 // });
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 
 Auth::routes();
 

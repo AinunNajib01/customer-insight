@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
@@ -19,19 +19,24 @@ class UserManagementController extends Controller
         $this->request = $request;
     }
 
-    public function showForm()
+    public function showLoginForm()
     {
         return view('auth.login');
+    }
+
+    public function showRegisterForm()
+    {
+        return view('auth.register');
     }
 
     public function submitLoginForm()
     {
         $credential = ['username' => $this->request->username, 'password' => $this->request->password];
         if ($this->login($credential)) {
-            return redirect('/home');
+            return redirect('/file/upload');
         } else {
             Session::flash('login-error', 'Wrong username/password. Try again.');
-            return redirect('/auth');
+            return redirect('/login');
         }
     }
 
@@ -55,10 +60,10 @@ class UserManagementController extends Controller
             if ($this->login($credential)) {
                 return redirect('/home');
             } else {
-                return redirect('/auth')->withErrors(['message' => 'Login failed!']);
+                return redirect('/login')->withErrors(['message' => 'Login failed!']);
             }
         } else {
-            return redirect('/auth')->withErrors($validator, 'register')->withInput();
+            return redirect('/login')->withErrors($validator, 'register')->withInput();
         }
     }
 
@@ -70,7 +75,7 @@ class UserManagementController extends Controller
 
         Auth::logout();
 
-        return redirect('/auth');
+        return redirect('/login');
     }
 
     protected function login($credential)
@@ -78,7 +83,7 @@ class UserManagementController extends Controller
         if ($account = Auth::attempt($credential, true)) {
 
             $userdata = Auth::user();
-            $userdata->token = JWTAuth::attempt($credential);
+            // $userdata->token = JWTAuth::attempt($credential);
             $userdata->save();
 
             return $account;

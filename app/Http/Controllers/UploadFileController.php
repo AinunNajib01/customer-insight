@@ -13,17 +13,18 @@ class UploadFileController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+        // $this->middleware('guest', ['except' => 'logout']);
     }
 
-    public function index(): View
-    {
-        $files = File::orderBy('created_at', 'DESC')
-            ->paginate(30);
+    // public function index(): View
+    // {
+    //     $files = File::orderBy('created_at', 'DESC')
+    //         ->paginate(30);
 
-        return view('file.index', compact('files'));
-    }
+    //     return view('file.index', compact('files'));
+    // }
 
-    public function form(): View
+    public function form()
     {
         return view('file.form');
     }
@@ -43,7 +44,7 @@ class UploadFileController extends Controller
 
         $file = File::create([
             'title' => $request->title ?? $uploadedFile->getClientOriginalName(),
-            'filename' => $path
+            'filepath' => $path
         ]);
 
         return redirect()

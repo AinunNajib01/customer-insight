@@ -10,6 +10,6 @@ class File extends Model
 
     protected $fillable = [
         'title',
-        'filename'
+        'filepath'
     ];
 }
